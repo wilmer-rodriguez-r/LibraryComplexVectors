@@ -1,10 +1,8 @@
 import unittest
-import math
 import numpy as np
 from random import randint
 import VectorComplexLibrary as vcl
 
-SIZE = 2
 TESTS = 10
 SEED = 1e2
 SEED_2 = 10
@@ -108,6 +106,15 @@ class testfunciones(unittest.TestCase):
             matriz_b_np = np.array(matriz_b[:])
             self.assertTrue((vcl.multMatrices(matriz_a[:], matriz_b[:]) == np.dot(matriz_a_np, matriz_b_np)).all())
 
+    def test_accion(self):
+        for i in range(TESTS):
+            rows = randint(2, SEED_2)
+            columns = randint(2, SEED_2)
+            matriz_a = [[conv((randint(-int(SEED), int(SEED)), randint(-int(SEED), int(SEED)))) for j in range(columns)]
+                        for k in range(rows)]
+            vector = [conv((randint(-int(SEED), int(SEED)), randint(-int(SEED), int(SEED)))) for j in range(columns)]
+            self.assertTrue((vcl.accion(matriz_a[:], vector) == np.dot(matriz_a, vector)).all())
+
     def test_producto_interno(self):
         for i in range(TESTS):
             rows = randint(2, SEED_2)
@@ -133,5 +140,45 @@ class testfunciones(unittest.TestCase):
             vector_c = np.array(vector_a[:]) - np.array(vector_b[:])
             self.assertTrue((vcl.disVectors(vector_a[:], vector_b[:]) == (np.inner(np.conj(vector_c), vector_c))**(1/2))
                             .all())
+
+    def test_hermitian(self):
+        for i in range(TESTS):
+            valor = None
+            size = randint(2, SEED_2)
+            matriz_a = [[conv((randint(-int(SEED), int(SEED)), randint(-int(SEED), int(SEED)))) for j in range(size)]
+                        for k in range(size)]
+            matriz_a_np = np.conj(np.transpose(np.array(matriz_a)))
+            if (matriz_a_np == matriz_a).all():
+                valor = True
+            else:
+                valor = False
+            self.assertTrue(vcl.matrizHermitian(matriz_a) == valor)
+
+    def test_unitary(self):
+        for i in range(TESTS):
+            valor = None
+            size = randint(2, SEED_2)
+            aux = [[(1 if j == k else 0) for k in range(size)]for j in range(size)]
+            matriz_a = [[conv((randint(-int(SEED), int(SEED)), randint(-int(SEED), int(SEED)))) for j in range(size)]
+                        for k in range(size)]
+            matriz_a_np = np.dot(np.conj(np.transpose(np.array(matriz_a))), matriz_a)
+            if (matriz_a_np == aux).all():
+                valor = True
+            else:
+                valor = False
+            self.assertTrue(vcl.matrizUnitary(matriz_a) == valor)
+
+    def test_tensor_product(self):
+        for i in range(TESTS):
+            rows = randint(2, SEED_2)
+            columns = randint(2, SEED_2)
+            matriz_a = [[conv((randint(-int(SEED), int(SEED)), randint(-int(SEED), int(SEED)))) for j in range(columns)]
+                        for k in range(rows)]
+            matriz_b = [[conv((randint(-int(SEED), int(SEED)), randint(-int(SEED), int(SEED)))) for j in range(rows)]
+                        for k in range(columns)]
+            matriz_a_np = np.array(matriz_a[:])
+            matriz_b_np = np.array(matriz_b[:])
+            self.assertTrue((vcl.tensorProduct(matriz_a[:], matriz_b[:]) == np.tensordot(matriz_a_np, matriz_b_np, axes=0)).all())
+
 if __name__ == '__main__':
     unittest.main()

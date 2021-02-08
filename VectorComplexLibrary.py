@@ -1,4 +1,5 @@
 # Librería de funciones para vectores y matrices complejos
+import numpy as np
 def auxiliar(matriz_vector):
     # función que corrobora si es una matriz o un arreglo devolviendo la cantidad de columnas de este
     try:
@@ -12,10 +13,9 @@ def auxiliar(matriz_vector):
 def auxiliar_1(matriz_vector):
     # función que corrobora si es una matriz o un arreglo devolviendo un valor booleano
     try:
-        column = len(matriz_vector[0])
+        len(matriz_vector[0])
         return True
     except TypeError:
-        column = 1
         return False
 
 
@@ -23,14 +23,16 @@ def auxiliar_2(num_complex):
     # función que conjuga los números complejos
     real = num_complex.real
     imaginaria = -1 * num_complex.imag
-    if imaginaria <= 0:
+    if imaginaria == 0:
+        imaginaria = 0
+    if imaginaria < 0:
         num = str(real) + str(imaginaria) + 'j'
     else:
         num = str(real) + '+' + str(imaginaria) + 'j'
     return complex(num)
 
 
-def vectorSumaComplex(vector_1,vector_2):
+def vectorSumaComplex(vector_1, vector_2):
     for i in range(len(vector_1)):
         vector_1[i] = vector_1[i] + vector_2[i]
     return vector_1[:]
@@ -93,7 +95,7 @@ def conjMatrizVector(matriz_vector):
 
 
 def adjuntMatrizVector (matriz_vector):
-    return trasMatrizVector(conjMatrizVector(matriz_vector[:]))
+    return trasMatrizVector(conjMatrizVector(matriz_vector))
 
 
 def multMatrices (matriz_a, matriz_b):
@@ -108,6 +110,14 @@ def multMatrices (matriz_a, matriz_b):
     else:
         return 'Las matrices no se pueden operar'
 
+
+def accion(matriz, vector):
+    rows, columns, size = len(matriz), len(matriz[0]), len(vector)
+    aux = [0 for i in range(rows)]
+    for j in range(rows):
+        for k in range(columns):
+            aux[j] += matriz[j][k] * vector[k]
+    return aux
 
 def dotProduct (vector_a, vector_b):
     size = len(vector_a)
@@ -138,3 +148,40 @@ def normVector(vector):
 def disVectors(vector_a, vector_b):
     vector = vectorSumaComplex(vectorInverComplex(vector_a), vector_b)
     return normVector(vector)
+
+
+def matrizHermitian(matriz):
+    matriz_a = conjMatrizVector(trasMatrizVector(matriz[:]))
+    if matriz_a == matriz:
+        return True
+    else:
+        return False
+
+
+def matrizUnitary(matriz):
+    size = len(matriz)
+    identidad = [[(1 if j == k else 0) for k in range(size)]for j in range(size)]
+    matriz = multMatrices(matriz, conjMatrizVector(trasMatrizVector(matriz[:])))
+    if matriz == identidad:
+        return True
+    else:
+        return False
+
+
+def tensorProduct(matriz_vector_0,matriz_vector_1):
+    rows_0, columns_0, valor = len(matriz_vector_0), auxiliar(matriz_vector_0), auxiliar_1(matriz_vector_1)
+    if columns_0 == 1 and valor:
+        for j in range(rows_0):
+            matriz_vector_0[j] = matrizMultEsComplex(matriz_vector_1[:], matriz_vector_0[j])
+    elif columns_0 == 1:
+        for j in range(rows_0):
+            matriz_vector_0[j] = vectorMultEsComplex(matriz_vector_1[:], matriz_vector_0[j])
+    elif columns_0 != 1 and valor:
+        for j in range(rows_0):
+            for k in range(columns_0):
+                matriz_vector_0[j][k] = matrizMultEsComplex(matriz_vector_1[:], matriz_vector_0[j][k])
+    else:
+        for j in range(rows_0):
+            for k in range(columns_0):
+                matriz_vector_0[j][k] = vectorMultEsComplex(matriz_vector_1[:], matriz_vector_0[j][k])
+    return matriz_vector_0[:]
