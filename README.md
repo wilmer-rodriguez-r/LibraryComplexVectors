@@ -22,6 +22,7 @@ esa librería contiene las siguientes operaciones:
 En la carpeta del proyecto debes tener dos archivos llamados:
 * VectorComplexLibrary.py
 * VectorComplexTest.py
+
 Es importante que estos archivos se encuentren, ya que uno es la librería con todas las operaciones, y el otro contiene el test que más adelante ejecutaremos
 para verificar que la librería funciona adecuadamente.
 ### Pre-requisitos
