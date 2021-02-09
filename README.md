@@ -43,15 +43,18 @@ Con ayuda de la librería numpy y la de randint, el test consta del siguiente me
 1. Se hace 10 Test por función de la librería, si quisiera aumentar la cantidad de Tests por función, en la variable TESTS del principio puede cambiar al valor que desee.
 2. SEED es una variable que con ayuda de randint toma valores aleatorios de 0 hasta 100, esta variable se usa para armar números complejos aleatorios.
 3. SEED_2 esta variable es la que nos dara los tamaños de los vectores y de las matrices, al igual que con la anterior se usa randint para que los valores sean aleatorios.
-4. Al ejecutar el test debe aparecer que se ejecutaron 17 test, es decir las todas las funciones de la librería.
+4. Al ejecutar el test debe aparecer que se ejecutaron 17 test, es decir todas las funciones de la librería.
 5. Si por alguna razón votara Error, esto se debe al mal funcionamiento del código, si por el contrario saliera Failure, significa que algún caso de prueba no dio el resultado esperado,
 y si da OK, eso es porque el test ejecuto y los casos de prueba pasaron sin ningún inconveniente.
 6. Cada vez que se ejecuta el test, los casos de prueba cambian aleatoriamente gracias a que randint, aleatoriza los tamaños y números complejos de las matrices y vectores.
 7. Numpy nos ayudará a comparar si nuestros resultados de la librería están acordes a lo esperado.
 ### Observaciones
-Para el correcto funcionamiento de las funciones, se recomienda que los vectores sean escritos en fila y no en columna, es decir
+Para el correcto funcionamiento de las funciones, se recomienda que los vectores sean escritos en fila y no en columna, es decir:
+
 v_f = [1,2,3,4]         ---> este es el vector fila
+
 v_c = [[1],[2],[3],[4]] ---> este es el vector columna
+
 Se tiene que tener en cuenta esto, para que no crear inconvenientes con las funciones, además los resultados de vectores, se darán en fila.
 ### Construido con
 * Python - Lenguaje de Programación
