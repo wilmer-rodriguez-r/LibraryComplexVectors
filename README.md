@@ -1,4 +1,4 @@
-# Librería de Complejos
+# Librería de Vectores y Matrices Complejas
 Esta librería es un compendio de varias operaciones que se puede hacer con vectores complejos y matrices complejas, 
 esa librería contiene las siguientes operaciones:
 - Adición de vectores complejos.
